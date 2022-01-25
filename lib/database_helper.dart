@@ -35,15 +35,15 @@ class DatabaseHelper{
   }
 
   onCreate(Database db,int version) {
-    db.query(
-        '''
-        CREATE TABLE $_tableName(
-        $_columnID PRIMARY KEY,
-        $_columnName TEXT NOT NULL
-        )
-        '''
+    db.execute(
+        '''CREATE TABLE $_tableName(
+        $_columnID INTEGER PRIMARY KEY,
+        $_columnName TEXT NOT NULL)'''
     ) ;
-
   }
 
+  Future<int> insert(Map<String,dynamic> row)async{
+    Database db = await instance.database;
+    return await db.insert(_tableName, row);
+  }
 }
