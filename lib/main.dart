@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lomas/database_helper.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -14,7 +15,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  TextEditingController controller = TextEditingController();
+
+  final controller = TextEditingController();
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    controller.dispose();
+    super.dispose();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +59,6 @@ class _MyAppState extends State<MyApp> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextFormField(
-                controller:  controller,
                 maxLines: 1,
                 showCursor: true,
                 autofocus: true,
@@ -64,9 +74,14 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(12)
                 ),
-                child: const TextButton(
-                    onPressed: null,
-                    child: Text(
+                child: TextButton(
+                    onPressed: ()async{
+                      String name = controller.text;
+                      int id =await  DatabaseHelper.instance.insert({'name': 'kelvin'});
+                      print('this is the id of the item inserted into the database $id');
+                      controller.clear();
+                    },
+                    child: const Text(
                         'Add Workout',
                       style: TextStyle(
                         color: Colors.white
@@ -74,7 +89,8 @@ class _MyAppState extends State<MyApp> {
                     ),
                 ),
               ),
-            )
+            ),
+
           ],
         ),
       ),

@@ -11,6 +11,7 @@ class DatabaseHelper{
   static const _dbVersion = 1;
   static const _columnName = "name";
   static const _columnID = 'ID';
+  static const _columnAge ='Age';
   static const _tableName = 'myTable';
 
   //making DatabaseHelper a Singleton class
@@ -27,10 +28,10 @@ class DatabaseHelper{
     return _database!;
   }
 
-  _initiateDatabase()async{
+ Future<Database> _initiateDatabase()async{
     Directory directory = await getApplicationDocumentsDirectory();
     String path = join(directory.path, _dbName);
-    await openDatabase(path,version: _dbVersion,onCreate: onCreate);
+    return await openDatabase(path,version: _dbVersion,onCreate: onCreate);
 
   }
 
@@ -38,12 +39,22 @@ class DatabaseHelper{
     db.execute(
         '''CREATE TABLE $_tableName(
         $_columnID INTEGER PRIMARY KEY,
-        $_columnName TEXT NOT NULL)'''
+        $_columnName TEXT NOT NULL)
+        '''
     ) ;
   }
 
+  //this method inserts data into the database
   Future<int> insert(Map<String,dynamic> row)async{
     Database db = await instance.database;
     return await db.insert(_tableName, row);
   }
+
+  //this method will query and return the data in the rows of the database
+  Future<List<Map<String,dynamic>>> queryAll() async{
+    Database db = await instance.database;
+    return await db.query(_tableName);
+  }
+
+
 }
