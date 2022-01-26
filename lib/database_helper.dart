@@ -39,7 +39,10 @@ class DatabaseHelper{
     db.execute(
         '''CREATE TABLE $_tableName(
         $_columnID INTEGER PRIMARY KEY,
-        $_columnName TEXT NOT NULL)
+        $_columnName TEXT NOT NULL,
+        $_columnAge INTEGER NOT NULL
+        )
+        
         '''
     ) ;
   }

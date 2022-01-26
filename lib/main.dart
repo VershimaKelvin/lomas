@@ -77,7 +77,12 @@ class _MyAppState extends State<MyApp> {
                 child: TextButton(
                     onPressed: ()async{
                       String name = controller.text;
-                      int id =await  DatabaseHelper.instance.insert({'name': 'kelvin'});
+                      int id =await  DatabaseHelper.instance.insert(
+                          {
+                            'Age': 12,
+                            'name':name
+                          }
+                          );
                       print('this is the id of the item inserted into the database $id');
                       controller.clear();
                     },
@@ -90,7 +95,27 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50,50,50,0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(12)
+                ),
+                child: TextButton(
+                  onPressed: ()async{
+                    List<Map<String,dynamic>> row =await DatabaseHelper.instance.queryAll();
+                    print(row);
+                  },
+                  child: const Text(
+                    'View all',
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
