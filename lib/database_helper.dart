@@ -59,5 +59,12 @@ class DatabaseHelper{
     return await db.query(_tableName);
   }
 
+  //this method will delete a particular item based on the passenger
+
+  Future<int> delete(int id)async{
+    Database db = await instance.database;
+    return await db.update(_tableName ,where: '$_columnID'=?)
+  }
+
 
 }
